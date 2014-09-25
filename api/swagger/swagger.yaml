@@ -19,7 +19,7 @@ produces:
   - application/json
 x-volos-resources: {}
 paths:
-  /specialRequests:
+  /specialRequests/{id}:
     # binds a127 app logic to a route
     x-swagger-router-controller: specialRequests
     x-volos-authorizations: {}
@@ -29,9 +29,9 @@ paths:
       # used as the method name of the controller
       operationId: getSpecialRequests
       parameters:
-        - name: specialRequestCode
-          in: query
-          description: The (optional) code value
+        - name: id
+          in: path
+          description: The (optional) special request code value
           required: false
           type: string
       responses:
@@ -39,33 +39,43 @@ paths:
           description: Success
           schema:
             # a pointer to a definition
-            $ref: SpecialRequestCode
+            $ref: SpecialRequestDetails
         # responses may fall through to errors
         default:
           description: Error
           schema:
-            $ref: ErrorResponse
+            $ref: StatusResponse
 # complex objects have schema definitions
 definitions:
-  HelloWorldResponse:
+  StatusResponse:
     required:
-      - message
+      - statusCode
+      - statusDetails
+      - moreInfo
+    properties:
+      statusCode:
+        type: string
+      statusDetails:
+        type: string
+      moreInfo:
+        type: string
+  SpecialRequestDetail:
+    required:
       - code
+      - description
     properties:
-      message:
+      code: 
         type: string
-    properties:
-      message:
-        type: string   
-  ErrorResponse:
-    required:
-      - message
-    properties:
-      message:
+      description: 
         type: string
-  SpecialRequestCode:
+  SpecialRequestDetails:
     required:
       - status
+      - list
     properties:
       status:
-        type: string
+        type: object
+        $ref: StatusResponse
+      list:
+        type: array
+        items: {"object": "SpecialRequestDetail"}
