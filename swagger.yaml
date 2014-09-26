@@ -198,7 +198,7 @@ paths:
       description: Returns the collection of resorts that provide the specified amenity.
       # used as the method name of the controller
       operationId: getResortsByAmenity 
-      parameters:
+          parameters:
         - name: amenityCode
           in: path
           description: An individual amenity code. 
@@ -250,7 +250,7 @@ paths:
       description: Returns the collection of resorts that are linked to the specified attraction.
       # used as the method name of the controller
       operationId: getResortsByAttraction 
-      parameters:
+          parameters:
         - name: attractionCode
           in: path
           description: An individual attraction code. 
@@ -302,7 +302,7 @@ paths:
       description: Returns the collection of resorts that belong to the brand {brandName}.
       # used as the method name of the controller
       operationId: getResortsByBrand 
-      parameters:
+          parameters:
         - name: brandName
           in: path
           description: An individual brand name. 

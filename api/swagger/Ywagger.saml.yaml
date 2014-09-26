@@ -1,0 +1,81 @@
+swagger: 2.0
+info:
+  version: "0.0.1"
+  title: GLH General Reservation Interface 
+# during dev, should point to your local machine
+host: glhhotels.com
+# basePath prefixes all resource paths 
+basePath: /
+# 
+schemes:
+  # tip: remove http to make production-grade
+  - http
+  - https
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+x-volos-resources: {}
+paths:
+  /specialRequests/{id}:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: specialRequests
+    x-volos-authorizations: {}
+    x-volos-apply: {}
+    get:
+      description: Returns a collection of predefined special request codes and descriptions
+      # used as the method name of the controller
+      operationId: getSpecialRequests
+      parameters:
+        - name: id
+          in: path
+          description: The (optional) special request code value
+          required: false
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: SpecialRequestDetails
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: StatusResponse
+# complex objects have schema definitions
+definitions:
+  StatusResponse:
+    required:
+      - statusCode
+      - statusDetails
+      - moreInfo
+    properties:
+      statusCode:
+        type: string
+      statusDetails:
+        type: string
+      moreInfo:
+        type: string
+  SpecialRequestDetail:
+    required:
+      - code
+      - description
+    properties:
+      code: 
+        type: string
+      description: 
+        type: string
+  SpecialRequestDetails:
+    required:
+      - status
+      - list
+    properties:
+      status:
+        type: object
+        $ref: StatusResponse
+      list:
+        type: array
+        items: {"object": "SpecialRequestDetail"}
