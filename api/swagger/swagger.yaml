@@ -238,9 +238,12 @@ definitions:
 # OBJECT_DETAILS are detrminiedd by the operatin itself
 #
 
-#####################################################################################
-#         StatusResponse                                                            #
-#####################################################################################
+###################################################################################
+#       Status Model                                                              #
+###################################################################################
+###################################################################################
+#         StatusResponse                                                          #
+###################################################################################
 #
 # A generic status object which containsthe outcome of an operation 
 # and pointers to further unformation
@@ -262,51 +265,107 @@ definitions:
         type: string
       moreInfo:
         type: array
-        items: [{"label": string, "link": string}]
+        items: {"label": string, "link": string}
 
 ###################################################################################
-#       Brand Response                                                            #
+#       Brand Model
+#
+#       Response, Details
 ###################################################################################
 
   BrandsResponse:
     required:
       - status
+      - list
     properties:
       status:
+        type: object
+        $ref: StatusResponse
+      list:
+        type: array
+        items: {"object": "BrandDetail"}
+        
+  BrandDetail:
+    required:
+      - brandName
+      - brandDescription
+    properties:
+      brandName:
         type: string
+      brandDescription:
+        type: string
+
+###################################################################################
+#       Preference model   
 #
-#
-#
+###################################################################################
+
+  PreferenceDetails:
+    required:
+      - preferenceType
+      - preferenceValue
+    properties:
+      preferenceTyoe:
+        type: string
+      preferenceDescription:
+        type: string
+      preferenceValue:
+        type: string
+      preferenceNotes:
+        type: string
+        
   PreferencesResponse:
     required:
       - status
       - list
     properties:
       status:
-        type: string
- #
- #
- #
+        type: object
+        $ref: StatusResponse
+      list:
+        type: array
+        items: {"object": "PreferenceDetails"}
  
+###################################################################################
+#       Resorts model                                                             #
+###################################################################################
+ 
+  ResortDetails:
+    required:
+      - resortCode
+      - resortShortDescription
+    properties:
+      resortCode:
+        type: string
+      resortShortDescription:
+        type: string
+      
   ResortsResponse:
     required:
       - status
+      - list
     properties:
       status:
-        type: string
-  #
-  #
-  #
-  
+        type: object
+        $ref: StatusResponse
+      list:
+        type: array
+        items: {"object": "ResortDetails"}
+        
+###################################################################################
+#       Room Types model                                                          #
+###################################################################################
   RoomTypesResponse:
     required:
       - status
     properties:
       status:
         type: string
- #
- #
- #
+        
+###################################################################################
+#       Special Request model                                                          #
+##################################################################################
+  
   SpecialRequestDetail:
     required:
       - code
