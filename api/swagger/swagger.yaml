@@ -3,7 +3,7 @@ info:
   version: "0.0.1"
   title: GLH General Reservation Interface 
 # during dev, should point to your local machine
-host: glhhotels.com
+host: api.glhhotels.com
 # basePath prefixes all resource paths 
 basePath: /
 # 
@@ -19,19 +19,19 @@ produces:
   - application/json
 x-volos-resources: {}
 paths:
-  /specialRequests/{id}:
+  /brands/{brandName}:
     # binds a127 app logic to a route
-    x-swagger-router-controller: specialRequests
+    x-swagger-router-controller: brandsController
     x-volos-authorizations: {}
     x-volos-apply: {}
     get:
-      description: Returns a collection of predefined special request codes and descriptions
+      description: Returns the collection of brand names and descriptions.
       # used as the method name of the controller
-      operationId: getSpecialRequests
+      operationId: getBrands
       parameters:
-        - name: id
+        - name: brandName
           in: path
-          description: The (optional) special request code value
+          description: An individual brand name. Add to limit the response to a single specific brand.
           required: false
           type: string
       responses:
@@ -39,26 +39,274 @@ paths:
           description: Success
           schema:
             # a pointer to a definition
-            $ref: SpecialRequestDetails
+            $ref: BrandsResponse
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: StatusResponse
+  /brands/{brandName}/resorts/:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: resortsController
+    x-volos-authorizations: {}
+    x-volos-apply: {}
+    get:
+      description: Returns the collection of resorts that belong to the brand {brandName}.
+      # used as the method name of the controller
+      operationId: getBrandResorts
+      parameters:
+        - name: brandName
+          in: path
+          description: An individual brand name. 
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: ResortsResponse
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: StatusResponse
+  /preferences/{preferenceCode}:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: preferences
+    x-volos-authorizations: {}
+    x-volos-apply: {}
+    get:
+      description: Returns the collection of preference codes and descriptions
+      # used as the method name of the controller
+      operationId: getPreferences
+      parameters:
+        - name: preferenceCode
+          in: path
+          description: An individual preference code. Add to limit the response to a single specific preference.
+          required: false
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: PreferencesResponse
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: StatusResponse 
+  /resorts/{resortCode}:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: resortsController
+    x-volos-authorizations: {}
+    x-volos-apply: {}
+    get:
+      description: Returns the collection of resort names and descriptions.
+      # used as the method name of the controller
+      operationId: getResorts
+      parameters:
+        - name: resortCode
+          in: path
+          description: An individual resort code. Add to limit the response to a single specific resort.
+          required: false
+          type: string
+        - name: fields
+          in: query
+          description: Specifies that a partial response is request and lists the resort repsonse fields to include (comma separated list)
+          required: false
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: ResortsResponse
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: StatusResponse
+  /resorts/{resortCode}/rooomtypes/:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: resortsController
+    x-volos-authorizations: {}
+    x-volos-apply: {}
+    get:
+      description: Returns a collection of room type names and attributes for a given resort {resortCode}.
+      # used as the method name of the controller
+      operationId: getRoomTypes
+      parameters:
+        - name: resortCode
+          in: path
+          description: An individual resort code.
+          required: true
+          type: string
+        - name: fields
+          in: query
+          description: Specifies that a partial response is request and lists the resort repsonse fields to include (comma separated list)
+          required: false
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: RoomTypesResponse
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: StatusResponse
+  /roomtypes/{roomTypeCode}:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: roomTypesController
+    x-volos-authorizations: {}
+    x-volos-apply: {}
+    get:
+      description: Returns the collection of room type codes  and room type attributes.
+      # used as the method name of the controller
+      operationId: getRoomTypes
+      parameters:
+        - name: roomTypeCode
+          in: path
+          description: An individual room type code. Add to limit the response to a single specific room type.
+          required: false
+          type: string
+        - name: fields
+          in: query
+          description: Specifies that a partial response is request and lists the resort repsonse fields to include (comma separated list)
+          required: false
+          type: string
+        - name: classification
+          in: query
+          description: Specifies the room type classification e.g. Sleeping or Function
+          required: false
+          type: string        
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: RoomTypesResponse
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: StatusResponse
+  /specialRequests/{specialRequestCode}:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: specialRequests
+    x-volos-authorizations: {}
+    x-volos-apply: {}
+    get:
+      description: Returns the collection of  special request codes and descriptions
+      # used as the method name of the controller
+      operationId: getSpecialRequests
+      parameters:
+        - name: specialRequestCode
+          in: path
+          description: An individual special request code. Add to limit the response to a single specific special request 
+          required: false
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: SpecialRequestsResponse
         # responses may fall through to errors
         default:
           description: Error
           schema:
             $ref: StatusResponse
 # complex objects have schema definitions
+
 definitions:
+
+#
+# A set of complex data definitions primarily for describing the data
+# returned by the API operations
+# 
+# The structure of each operation response is similar, like
+#
+# RESPONSE_OBJECT
+#   STATUS_RESPONSE
+#   ARRAY OF OBJECT_DETAILS
+#
+# OBJECT_DETAILS are detrminiedd by the operatin itself
+#
+
+#####################################################################################
+#         StatusResponse                                                            #
+#####################################################################################
+#
+# A generic status object which containsthe outcome of an operation 
+# and pointers to further unformation
+# 
+# Apart from a code and additional descriptive text, there is the 
+# option of providing a further
+# set of links for additional calls for further details
+#
+# Status Response is included in all operation responses as part of a complex object
+#
   StatusResponse:
     required:
       - statusCode
       - statusDetails
-      - moreInfo
     properties:
       statusCode:
         type: string
       statusDetails:
         type: string
       moreInfo:
+        type: array
+        items: [{"label": string, "link": string}]
+
+###################################################################################
+#       Brand Response                                                            #
+###################################################################################
+
+  BrandsResponse:
+    required:
+      - status
+    properties:
+      status:
         type: string
+#
+#
+#
+  PreferencesResponse:
+    required:
+      - status
+      - list
+    properties:
+      status:
+        type: string
+ #
+ #
+ #
+ 
+  ResortsResponse:
+    required:
+      - status
+    properties:
+      status:
+        type: string
+  #
+  #
+  #
+  
+  RoomTypesResponse:
+    required:
+      - status
+    properties:
+      status:
+        type: string
+ #
+ #
+ #
   SpecialRequestDetail:
     required:
       - code
@@ -68,7 +316,8 @@ definitions:
         type: string
       description: 
         type: string
-  SpecialRequestDetails:
+ 
+  SpecialRequestsResponse:
     required:
       - status
       - list
