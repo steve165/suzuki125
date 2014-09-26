@@ -1,0 +1,20 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "StatusResponse",
+    "description": "General status details provided by (most) GLH REST calls",
+    "type": "object",
+    "properties": {
+        "statusCode": {
+            "description": " A unique vaue for the code details",
+            "type": "string"
+        },
+        "statusDetails": {
+            "description": "More verbose description of call the outcome",
+            "type": "string"
+        },
+		"moreInfo": {
+			"description": "Wher to go for additional information - in the form of a URL",
+			"type": "string"
+    },
+    "required": ["statusCode", "statusDetails"]
+}
