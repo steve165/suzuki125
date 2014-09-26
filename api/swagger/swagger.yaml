@@ -241,10 +241,7 @@ definitions:
 ###################################################################################
 #       Status Model                                                              #
 ###################################################################################
-###################################################################################
-#         StatusResponse                                                          #
-###################################################################################
-#
+
 # A generic status object which containsthe outcome of an operation 
 # and pointers to further unformation
 # 
@@ -339,6 +336,27 @@ definitions:
         type: string
       resortShortDescription:
         type: string
+      resortDescription:
+        type: string
+      address:
+        type: string
+      geocode:
+        type: string
+      contactDetails:
+        type: array
+        items: {"contactType": "string", "contactValue": "string"}
+      cityName:
+        type: string
+      businessCentreName:
+        type: string
+      languages:
+        type: array
+        items: {"language": "string"}
+      currency:
+        type: array
+        items: {"currency": "string"}
+      websiteURL:
+        type: string # in valid URL format
       
   ResortsResponse:
     required:
@@ -355,12 +373,44 @@ definitions:
 ###################################################################################
 #       Room Types model                                                          #
 ###################################################################################
+  RoomFacility:
+    required:
+      facilityCode
+      facilityName
+    properties:
+      facilityCode:
+        type: string
+      facilityName:
+        type: string
+      facilityDescription:
+        type: string
+  
+  RoomTypeDetail:
+    required:
+      - roomTypeCode
+      - roomTypeName
+    properties:
+      roomTypeCode: 
+        type: string
+      roomTypeName:
+        type: string
+      roomCategory:
+        type: string
+      roomFacilities:
+        type: array
+        items: {"object": "RoomFacility"} 
+  
   RoomTypesResponse:
     required:
       - status
+      - list
     properties:
       status:
-        type: string
+        type: object
+        $ref: StatusResponse
+      list:
+        type: array
+        items: {"object": "RoomTypeDetail"}
         
 ###################################################################################
 #       Special Request model                                                          #
