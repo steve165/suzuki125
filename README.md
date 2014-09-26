@@ -1,2 +1,2 @@
-SjTest1
+Test of commit and add
 =======
